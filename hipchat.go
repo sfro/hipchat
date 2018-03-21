@@ -42,6 +42,7 @@ type Message struct {
 	To          string
 	Body        string
 	MentionName string
+	TimeStamp   string
 }
 
 // A User represents a member of the HipChat service.
@@ -267,11 +268,11 @@ func (c *Client) listen() {
 			}
 		case "message" + xmpp.NsJabberClient:
 			attr := xmpp.ToMap(element.Attr)
-
 			c.receivedMessage <- &Message{
-				From: attr["from"],
-				To:   attr["to"],
-				Body: c.connection.Body(),
+				From:      attr["from"],
+				To:        attr["to"],
+				TimeStamp: attr["ts"],
+				Body:      c.connection.Body(),
 			}
 		}
 	}
